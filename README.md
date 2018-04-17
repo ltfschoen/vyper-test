@@ -24,6 +24,7 @@ TODO
 * Install [PyEnv](https://github.com/pyenv/pyenv)
 * Clone the Vyper repo and install Vyper
     ```bash
+    pyenv global 3.6.2
     mkdir -p ~/code/clones && cd ~/code/clones
     git clone https://github.com/ethereum/vyper.git;
     cd vyper; 
