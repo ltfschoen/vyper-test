@@ -6,6 +6,12 @@ Vyper smart contract language
 
 Includes Troubleshooting tips and information about Vyper
 
+TODO
+* [ ] - [Safe Remote Purchases] (http://viper.readthedocs.io/en/latest/vyper-by-example.html#safe-remote-purchases)
+* [ ] - [Crowdfund](http://viper.readthedocs.io/en/latest/vyper-by-example.html#crowdfund)
+* [ ] - [Voting](http://viper.readthedocs.io/en/latest/vyper-by-example.html#voting)
+* [ ] - [Company Stock](http://viper.readthedocs.io/en/latest/vyper-by-example.html#company-stock)
+
 # Table of Contents
   * [Chapter 0 - Setup WITHOUT Docker](#chapter-0)
   * [Chapter 1 - Setup WITH Docker](#chapter-1)
@@ -15,10 +21,21 @@ Includes Troubleshooting tips and information about Vyper
 ## Chapter 0 - Setup WITHOUT Docker <a id="chapter-0"></a>
 
 * Install [PyEnv](https://github.com/pyenv/pyenv)
-* Clone the repo
+* Clone the Vyper repo and install Vyper
     ```bash
+    mkdir -p ~/code/clones && cd ~/code/clones
     git clone https://github.com/ethereum/vyper.git;
-    cd vyper; make; make test;
+    cd vyper; 
+    make; make test;
+    ```
+* Clone this repo
+    ```bash
+    cd ~/code/clones;
+    git clone https://github.com/ltfschoen/vyper-test;
+    ```
+* Compile a Vyper contract
+    ```bash
+    vyper contracts/auctions/simple_open_auction.v.py
     ```
 
 * Troubleshooting
@@ -60,6 +77,8 @@ Includes Troubleshooting tips and information about Vyper
 * Make changes to examples/crowdfund.v.py in the Text Editor. The changes will also be reflected in the Docker Container.
 
 * Terminal #1 - Repeat the previous command to try and re-compile the Vyper contract
+
+* Follow steps in Chapter 0 to clone my repo and make the files accessible in the container
 
 ## Chapter 2 - Docker Containers and Images (Show/Delete) <a id="chapter-2"></a>
 
@@ -112,20 +131,49 @@ Includes Troubleshooting tips and information about Vyper
 
 * Vyper Syntax where Files `.v.py` are a Smart Contract 
     * Class-like with:
-        * State Variable
+        * Contract State Variables
             * Usage: Permanently stored in contract Storage
             * Example
                 ```python
                 storedData: int128
                 ```
+            * Access 
+                ```python
+                self.storedData
+                ```
+        * Validations 
+            * `assert`
+                * Failure to pass results in the method to throw an error and the transaction is reverted
+        * Objects
+            * `block` - Object available within Vyper contract providing info about block at time of calling
+            * `msg`
+                * Object built-in that provides information about the message caller whenever a method in the contract is called
+                * `msg.sender` to access public address of the caller of a method
+                    * WARNING: If calling contract from outside it works correctly, but for subsequent internal function calls it will reference the contract itself instead of the sender of the transaction
+                * `msg.value` to access amount of ether a user sends
         * [Types, Visibility, Getters](http://viper.readthedocs.io/en/latest/types.html#types)
-            * TODO
+            * `address`
+            * `bool`
+            * `timedelta` seconds
+            * `timestamp` time
+                * `block.timestamp` - Current Time
+            * `wei_value` lowest denominator
+            
         * Functions
             * Usage: 
                 * Executable units in contract
                 * Internally or Externally
                 * Visibility-and-getters differ toward other contracts
                 * Decorated with `@public` or `@private`
+                    * Default is `@private` which is only accessible to methods in same contract
+                    * `@public` callable by external contracts
+                    * `@public` function creates a **Getter** function accessible with call `self.get_beneficiary(some_address)`
+
+                * **Security** Structure functions that interact with other contracts (i.e. they call functions or send Ether) into three phases:
+                    * 1. Check Conditions
+                    * 2. Performing Actions (potentially changing conditions)
+                    * 3. Interacting with other Contracts
+                    * WARNING: If these phases are mixed up, the other contract could call back into the current contract and modify the state or cause effects (Ether payout) to be performed multiple times. If functions called internally include interaction with external contracts, they also have to be considered interaction with external contracts.
             * Example
                 ```python
                 @public
