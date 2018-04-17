@@ -1,0 +1,7 @@
+tests/__pycache__/
+tests/auctions/__pycache__/
+*.pyc
+.pytest_cache
+htmlcov/
+.coverage
+vyper.egg-info/
