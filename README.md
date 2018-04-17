@@ -203,7 +203,7 @@ TODO
 ## Chapter 4 - Unit Tests <a id="chapter-4"></a>
 
 ```bash
-python setup.py test
 pip3 install ethereum==2.3.1 pytest pytest-cov pytest-runner
-pytest
+python setup.py test
+pytest -v --full-trace --setup-show
 ```
