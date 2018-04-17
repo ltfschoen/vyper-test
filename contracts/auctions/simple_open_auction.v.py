@@ -1,66 +1,68 @@
-# Open Auction
+# OPEN AUCTION SMART CONTRACT
 
-# Auction params
-# Beneficiary receives money from the highest bidder
+# CONTRACT STATE VARIABLES - GLOBAL
+
+# Declarations
 beneficiary: public(address)
+
 auction_start: public(timestamp)
 auction_end: public(timestamp)
 
-# Current state of auction
 highest_bidder: public(address)
 highest_bid: public(wei_value)
 
-# Set to true at the end, disallows any change
 ended: public(bool)
 
-# Create a simple auction with `_bidding_time`
-# seconds bidding time on behalf of the
-# beneficiary address `_beneficiary`.
+# CONTRACT STATE VARIABLES - PRIVATE
+
+# CONSTRUCTOR - PUBLIC
+
 @public
 def __init__(_beneficiary: address, _bidding_time: timedelta):
+    """
+    :param _beneficiary: Beneficiary address receives money from 
+      highest bid when auction period ends
+    :type _beneficiary: address
+
+    :param _bidding_time: Participants submit bids during limited time period
+    :type _beneficiary: timedelta
+
+    :output N/A: N/A
+    """
+
+    # Assignment
     self.beneficiary = _beneficiary
     self.auction_start = block.timestamp
     self.auction_end = self.auction_start + _bidding_time
 
-# Bid on the auction with the value sent
-# together with this transaction.
-# The value will only be refunded if the
-# auction is not won.
+# FUNCTIONS - PUBLIC
+
+# Transaction to bid on the auction with value sent
+# in addition to gas fees. Refund the value if auction is not won
 @public
 @payable
 def bid():
-    # Check if bidding period is over.
+    # Check if bid occurred before bid period finishes
     assert block.timestamp < self.auction_end
-    # Check if bid is high enough
+    # Check if new bid is sufficient by being greater than highest bid
     assert msg.value > self.highest_bid
+    # Check if the previously stored highest bid is not equal to zero
     if not self.highest_bid == 0:
         # Sends money back to the previous highest bidder
-        send(self.highest_bidder,self.highest_bid)
+        send(self.highest_bidder, self.highest_bid)
+    # Set valid new highest bid
     self.highest_bidder = msg.sender
     self.highest_bid = msg.value
 
-
-# End the auction and send the highest bid
-# to the beneficiary.
+# End the auction and send the highest bid amount to the beneficiary.
 @public
 def end_auction():
-    # It is a good guideline to structure functions that interact
-    # with other contracts (i.e. they call functions or send Ether)
-    # into three phases:
-    # 1. checking conditions
-    # 2. performing actions (potentially changing conditions)
-    # 3. interacting with other contracts
-    # If these phases are mixed up, the other contract could call
-    # back into the current contract and modify the state or cause
-    # effects (Ether payout) to be performed multiple times.
-    # If functions called internally include interaction with external
-    # contracts, they also have to be considered interaction with
-    # external contracts.
+    # STRUCTURED FUNCTION PHASES
 
     # 1. Conditions
-    # Check if auction endtime has been reached
+    #   - Check if auction end time has been reached
     assert block.timestamp >= self.auction_end
-    # Check if this function has already been called
+    #   - Check if auction already ended. Prevent malicious calls
     assert not self.ended
 
     # 2. Effects
