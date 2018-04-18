@@ -19,16 +19,14 @@ ended: public(bool)
 
 @public
 def __init__(_beneficiary: address, _bidding_time: timedelta):
-    """
-    :param _beneficiary: Beneficiary address receives money from 
-      highest bid when auction period ends
-    :type _beneficiary: address
-
-    :param _bidding_time: Participants submit bids during limited time period
-    :type _beneficiary: timedelta
-
-    :output N/A: N/A
-    """
+    # :param _beneficiary: Beneficiary address receives money from
+    #   highest bid when auction period ends
+    # :type _beneficiary: address
+    #
+    # :param _bidding_time: Participants submit bids during limited time period
+    # :type _beneficiary: timedelta
+    #
+    # :output N/A: N/A
 
     # Assignment
     self.beneficiary = _beneficiary
