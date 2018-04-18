@@ -14,6 +14,8 @@ TODO
 * [ ] - Deploy Vyper and integrate into Truffle
   * https://github.com/ethereum/vyper/issues/459
   * https://github.com/gakonst/ViperWeb3Deploy
+* [ ] - Review Vyper code by others
+  * https://github.com/Uniswap/contracts-vyper
 
 # Table of Contents
   * [Chapter 0 - Setup WITHOUT Docker](#chapter-0)
@@ -41,6 +43,14 @@ TODO
 * Compile a Vyper contract
     ```bash
     vyper contracts/auctions/simple_open_auction.v.py
+    ```
+
+* Run Unit tests
+    * Troubleshooting
+        * Recursively deleting the pycache folder created in both the tests/ subdirectory and the tests/auctions/ subdirectory, and the .pytest_cache folder in the project root directory, and then running `find . -name '*.pyc' -delete` just to be sure all the cache files had been removed from all subdirectories. Add `export PYTHONDONTWRITEBYTECODE=1` into ~/.bash_profile so Python cache files would no longer be generated.
+
+    ```bash
+    python3 -m pytest -v
     ```
 
 * Troubleshooting

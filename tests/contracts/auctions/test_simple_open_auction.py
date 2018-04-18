@@ -3,14 +3,13 @@ import ethereum.utils as utils
 
 FIVE_DAYS = 432000
 
-
 @pytest.fixture
-def auction_tester(tester):
+def auction_tester(t):
     from vyper import compiler
-    tester.languages['vyper'] = compiler.Compiler()
+    t.languages['vyper'] = compiler.Compiler()
     contract_code = open('contracts/auctions/simple_open_auction.v.py').read()
-    tester.c = tester.s.contract(contract_code, language='vyper', args=[tester.accounts[0], FIVE_DAYS])
-    return tester
+    t.c = t.s.contract(contract_code, language='vyper', args=[t.accounts[0], FIVE_DAYS])
+    return t
 
 
 def test_initial_state(auction_tester):
