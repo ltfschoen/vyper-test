@@ -1,5 +1,7 @@
 # README
 
+Travic CI Build Status: [![Build Status](https://api.travis-ci.org/ltfschoen/vyper-test.svg)](https://travis-ci.org/ltfschoen/vyper-test)
+
 ---
 Vyper smart contract language
 ---
@@ -35,6 +37,8 @@ TODO
     cd vyper; 
     make; make test;
     ```
+    * Troubleshooting
+        * Refer to my fork with detailed setup instructions in README_MAC.md https://github.com/ltfschoen/vyper
 * Clone this repo
     ```bash
     cd ~/code/clones;
