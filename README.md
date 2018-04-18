@@ -11,6 +11,9 @@ TODO
 * [ ] - [Crowdfund](http://viper.readthedocs.io/en/latest/vyper-by-example.html#crowdfund)
 * [ ] - [Voting](http://viper.readthedocs.io/en/latest/vyper-by-example.html#voting)
 * [ ] - [Company Stock](http://viper.readthedocs.io/en/latest/vyper-by-example.html#company-stock)
+* [ ] - Deploy Vyper and integrate into Truffle
+  * https://github.com/ethereum/vyper/issues/459
+  * https://github.com/gakonst/ViperWeb3Deploy
 
 # Table of Contents
   * [Chapter 0 - Setup WITHOUT Docker](#chapter-0)
