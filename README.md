@@ -73,10 +73,29 @@ ganache-cli \
     --gasLimit=7984452 \
     --gasPrice=20000000000;
 ```
+
+* Start a Geth Node and View its Logs
+    * https://github.com/ltfschoen/geth-node
+
 * Run Deployment Script
     ```bash
     python3 scripts/main.py
     ```
+
+    * Example Terminal Output
+        ```
+        $ python3 scripts/main.py
+        OS Platform: darwin
+        Web3 provider: <web3.main.Web3 object at 0x10aa6c160>
+        Initializing chain from provided state
+        Address: %s b'\xd6\xf0\x84\xee\x15\xe3\x8cO~\t\x1f\x8d\xd0\xfeo\xe4\xa0\xe2\x03\xef'
+        Contract Instance: %s <ethereum.tools.tester.ABIContract object at 0x10c4614a8>
+        Contract Instance with Web3: %s <ethereum.tools.tester.ABIContract object at 0x10c4614a8>
+        Accounts: %s 0x487F2778Ec7D0747d6E26AF80148Ec471a08b339
+        Default Account: %s 0x487F2778Ec7D0747d6E26AF80148Ec471a08b339
+        Unlocked Default Account: %s True
+        Deployed Contract Tx Hash: %d b'\x14S\xc2\xb9|\x98\xdc\x02\xb3\rd!\xd9\xba\xfbOc\x03a:\xef^\xaa\x88\xfe\x11\x1e\xec.\x02t\xca'
+        ```
 
 * Run Unit tests
     * Troubleshooting

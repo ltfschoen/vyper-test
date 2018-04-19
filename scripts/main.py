@@ -86,21 +86,20 @@ tester.s.revert(initial_chain_state)
 contract_instance_web3 = web3.eth.contract(abi=abi, bytecode=byte_code)
 print("Contract Instance with Web3: %s", contract_instance)
 
-# # Get transaction hash from deployed contract
-# deploy_txn_hash = contract_instance_web3.deploy(transaction={'from': web3.eth.accounts[0], 'gas': 410000})
-# print("Deployed Contract Tx Hash: %s", deploy_txn_hash)
+print("Accounts: %s",  web3.personal.listAccounts[0]);
 
-# # Get tx receipt to get contract address
-# tx_receipt = web3.eth.getTransactionReceipt(deploy_txn_hash)
-# contract_address = tx_receipt['contractAddress']
-# print("Contract Address with Web3: %s", contract_address)
+# Set Default account since this is used by 
+# /Users/Me/.pyenv/versions/3.6.2/lib/python3.6/site-packages/web3/contract.py", line 742
+web3.eth.defaultAccount = web3.personal.listAccounts[0]
+print("Default Account: %s", web3.eth.defaultAccount);
+print("Unlocked Default Account: %s", web3.personal.unlockAccount(web3.eth.defaultAccount, GENERIC_PASSWORD_TO_ENCRYPT))
 
-# Alternative attempt using Web3.py 4.1.0 and Geth 
+# Alternative using Web3.py 4.1.0 and Geth
 # https://github.com/ltfschoen/geth-node
 # http://web3py.readthedocs.io/en/stable/contracts.html?highlight=deploy
-deploy_txn_hash = contract_instance_web3.constructor(web3.eth.coinbase, 12345).transact()
+# Get transaction hash from deployed contract
+deploy_txn_hash = contract_instance_web3.constructor(web3.eth.defaultAccount, 12345).transact()
 # Returns ValueError: {'code': -32000, 'message': 'unknown account'}
-print("Deployed Contract Tx Hash: %s", deploy_txn_hash)
-txn_receipt = web3.eth.getTransactionReceipt(deploy_txn_hash)
-print("Transaction Receipt: %s", txn_receipt['contractAddress'])
+# https://www.devdungeon.com/content/working-binary-data-python
+print("Deployed Contract Tx Hash: %d", deploy_txn_hash)
 
