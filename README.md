@@ -13,6 +13,8 @@ TODO
 * [ ] - [Crowdfund](http://viper.readthedocs.io/en/latest/vyper-by-example.html#crowdfund)
 * [ ] - [Voting](http://viper.readthedocs.io/en/latest/vyper-by-example.html#voting)
 * [ ] - [Company Stock](http://viper.readthedocs.io/en/latest/vyper-by-example.html#company-stock)
+* [X] - Deploy Vyper contract to Geth Private Network
+* [ ] - Deploy Vyper contract to Ganache CLI / TestRPC
 * [ ] - Deploy Vyper and integrate into Truffle
   * https://github.com/ethereum/vyper/issues/459
   * https://github.com/gakonst/ViperWeb3Deploy
@@ -52,32 +54,11 @@ TODO
     ```bash
     vyper contracts/auctions/simple_open_auction.v.py
     ```
-* Create separate terminal tab and start virtual EVM
-```bash
-ganache-cli \
-    --account="0x0000000000000000000000000000000000000000000000000000000000000001, 2471238800000000000" \
-    --account="0x0000000000000000000000000000000000000000000000000000000000000002, 4471238800000000000" \
-    --unlock "0x0000000000000000000000000000000000000000000000000000000000000001" \
-    --unlock "0x0000000000000000000000000000000000000000000000000000000000000002" \
-    --blocktime 0 \
-    --deterministic true \
-    --port 8545 \
-    --hostname localhost \
-    --seed 'blah' \
-    --debug true \
-    --mem true \
-    --mnemonic 'something' \
-    --db './db/chain_database' \
-    --verbose \
-    --networkId=3 \
-    --gasLimit=7984452 \
-    --gasPrice=20000000000;
-```
 
 * Start a Geth Node and View its Logs
     * https://github.com/ltfschoen/geth-node
 
-* Run Deployment Script
+* Run Deployment Script to Deploy the Vyper Smart Contract to Geth Private Network
     ```bash
     python3 scripts/main.py
     ```
@@ -107,6 +88,30 @@ ganache-cli \
 
 * Troubleshooting
     * Refer to fork with [Troubleshooting steps](https://github.com/ltfschoen/vyper/blob/master/README_MAC.md)
+
+* INCOMPLETE - Deploy Vyper contract to Ganache CLI / TestRPC
+    * Create separate terminal tab and start virtual EVM and start Ganache CLI 
+
+```bash
+ganache-cli \
+    --account="0x0000000000000000000000000000000000000000000000000000000000000001, 2471238800000000000" \
+    --account="0x0000000000000000000000000000000000000000000000000000000000000002, 4471238800000000000" \
+    --unlock "0x0000000000000000000000000000000000000000000000000000000000000001" \
+    --unlock "0x0000000000000000000000000000000000000000000000000000000000000002" \
+    --blocktime 0 \
+    --deterministic true \
+    --port 8545 \
+    --hostname localhost \
+    --seed 'blah' \
+    --debug true \
+    --mem true \
+    --mnemonic 'something' \
+    --db './db/chain_database' \
+    --verbose \
+    --networkId=3 \
+    --gasLimit=7984452 \
+    --gasPrice=20000000000;
+```
 
 ## Chapter 1 - Setup WITH Docker <a id="chapter-1"></a>
 
