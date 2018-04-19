@@ -6,6 +6,9 @@ cffi==1.7
 coincurve==7.0.0
 eth-abi==1.0.0
 eth-account==0.1.0-alpha.2
+eth-keys==0.2.0b3
+eth-tester==0.1.0b21
+eth-utils==1.0.1
 ethereum==2.3.1
 hexbytes==0.1.0
 idna==2.5
@@ -20,3 +23,4 @@ six==1.10.0
 toolz==0.8.0
 urllib3==1.21.1
 yarl==1.0.0
+web3==4.1.0

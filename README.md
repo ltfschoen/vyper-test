@@ -44,9 +44,38 @@ TODO
     cd ~/code/clones;
     git clone https://github.com/ltfschoen/vyper-test;
     ```
+* Install dependencies. Fix any incompatibilities
+    ```bash
+    pip3 install -r requirements.txt
+    ```
 * Compile a Vyper contract
     ```bash
     vyper contracts/auctions/simple_open_auction.v.py
+    ```
+* Create separate terminal tab and start virtual EVM
+```bash
+ganache-cli \
+    --account="0x0000000000000000000000000000000000000000000000000000000000000001, 2471238800000000000" \
+    --account="0x0000000000000000000000000000000000000000000000000000000000000002, 4471238800000000000" \
+    --unlock "0x0000000000000000000000000000000000000000000000000000000000000001" \
+    --unlock "0x0000000000000000000000000000000000000000000000000000000000000002" \
+    --blocktime 0 \
+    --deterministic true \
+    --port 8545 \
+    --hostname localhost \
+    --seed 'blah' \
+    --debug true \
+    --mem true \
+    --mnemonic 'something' \
+    --db './db/chain_database' \
+    --verbose \
+    --networkId=3 \
+    --gasLimit=7984452 \
+    --gasPrice=20000000000;
+```
+* Run Deployment Script
+    ```bash
+    python3 scripts/main.py
     ```
 
 * Run Unit tests

@@ -1,6 +1,22 @@
 from vyper import compiler
 from ethereum.tools import tester
 from ethereum import utils as ethereum_utils
+# http://web3py.readthedocs.io/en/stable
+import web3
+from web3 import Web3, HTTPProvider, EthereumTesterProvider
+from sys import platform
+
+from web3.contract import Contract
+
+# provider_ethereum_test = EthereumTesterProvider()
+# HTTP Provider Reference: http://web3py.readthedocs.io/en/stable/providers.html#httpprovider
+provider_http = Web3.HTTPProvider("http://127.0.0.1:8545")
+# web3.py instance
+web3 = Web3(provider_http)
+print('OS Platform: {}'.format(platform))
+print('Web3 provider: {}'.format(web3))
+
+# print("Block Number: %s", web3.eth.blockNumber)
 
 def get_encoded_contract_constructor_arguments(constructor_args=None):
     if constructor_args:
@@ -61,3 +77,17 @@ assert ethereum_utils.remove_0x_head(tester.c.beneficiary()) == tester.accounts[
 assert tester.c.auction_end() == tester.s.head_state.timestamp + FIVE_DAYS
 # Revert chain state on failed transaction
 tester.s.revert(initial_chain_state)
+
+# Instantiate and deploy contract
+contract_instance_web3 = web3.eth.contract(abi=abi, bytecode=byte_code)
+print("Contract Instance with Web3: %s", contract_instance)
+
+# Get transaction hash from deployed contract
+tx_hash = contract_instance_web3.deploy(transaction={'from': web3.eth.accounts[0], 'gas': 410000})
+print("Deployed Contract Tx Hash: %s", tx_hash)
+
+# Get tx receipt to get contract address
+tx_receipt = web3.eth.getTransactionReceipt(tx_hash)
+contract_address = tx_receipt['contractAddress']
+print("Contract Address with Web3: %s", contract_address)
+
