@@ -76,6 +76,8 @@ TODO
         Default Account: %s 0x487F2778Ec7D0747d6E26AF80148Ec471a08b339
         Unlocked Default Account: %s True
         Deployed Contract Tx Hash: %d b'\x14S\xc2\xb9|\x98\xdc\x02\xb3\rd!\xd9\xba\xfbOc\x03a:\xef^\xaa\x88\xfe\x11\x1e\xec.\x02t\xca'
+        Contract Instance: %s <web3.utils.datatypes.Contract object at 0x10b251ba8>
+        Called Getter method of the Deployed Contract Instance: %s 0x487F2778Ec7D0747d6E26AF80148Ec471a08b339
         ```
 
 * Run Unit tests

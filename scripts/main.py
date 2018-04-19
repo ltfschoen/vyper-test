@@ -98,8 +98,37 @@ print("Unlocked Default Account: %s", web3.personal.unlockAccount(web3.eth.defau
 # https://github.com/ltfschoen/geth-node
 # http://web3py.readthedocs.io/en/stable/contracts.html?highlight=deploy
 # Get transaction hash from deployed contract
-deploy_txn_hash = contract_instance_web3.constructor(web3.eth.defaultAccount, 12345).transact()
+
+# Constructor Parameters
+args = {
+    'language': 'vyper',
+    'args': [web3.eth.accounts[0], FIVE_DAYS]
+}
+contract_data = contract_instance_web3.constructor(web3.eth.defaultAccount, 12345).buildTransaction(args)
+deploy_txn_hash = web3.eth.sendTransaction(contract_data)
+
+# deploy_txn_hash = contract_instance_web3.constructor(web3.eth.defaultAccount, 12345).transact()
+
 # Returns ValueError: {'code': -32000, 'message': 'unknown account'}
 # https://www.devdungeon.com/content/working-binary-data-python
 print("Deployed Contract Tx Hash: %d", deploy_txn_hash)
 
+txn_receipt = web3.eth.getTransactionReceipt(deploy_txn_hash)
+print("Transaction Receipt: %s", txn_receipt)
+
+# Get the deployed transaction hash that is shown in the Geth Logs.
+# Open Geth JavaScript console and paste the following to get the receipt:
+# web3.eth.getTransactionReceipt('<INSERT_TRANSACTION_HASH')
+
+# Mine the deployed contract using the Geth JavaScript Console with `miner.start(1)`
+# and stop it with `miner.stop()` after it's finished mining the deployed contract
+
+# TEMPORARY HACK SINCE `deploy_txn_hash` is being returned as 
+# `b'\x14S\xc2\xb9|\x98\xdc\x02\xb3\rd!\xd9\xba\xfbOc\x03a:\xef^\xaa\x88\xfe\x11\x1e\xec.\x02t\xca'` 
+# instead of `0xff2f29a02442f9f522967d8b388cf0b8cf6bff8bbe1526be45e413c220e4b91a`
+# Copy/Paste the contract address that is shown in the Geth Logs after it displays "Submitted contract creation"
+deployed_address_of_contract_from_geth = '0xD066107750d5a90109110889aa60CaadEee9063d'
+contract_instance = web3.eth.contract(address=deployed_address_of_contract_from_geth, abi=abi)
+print("Contract Instance: %s", contract_instance)
+
+print("Called Getter method of the Deployed Contract Instance: %s", contract_instance.functions.beneficiary().call())
