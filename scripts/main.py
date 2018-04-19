@@ -3,16 +3,20 @@ from ethereum.tools import tester
 from ethereum import utils as ethereum_utils
 # http://web3py.readthedocs.io/en/stable
 import web3
-from web3 import Web3, HTTPProvider, EthereumTesterProvider
+from web3 import Web3, HTTPProvider, EthereumTesterProvider, IPCProvider
 from sys import platform
 
 from web3.contract import Contract
 
+GETH_IPC_PATH = '/Users/Ls/code/blockchain/geth-node/chaindata/geth.ipc'
+GENERIC_PASSWORD_TO_ENCRYPT = 'test123456'
+
+provider_ipc = IPCProvider(GETH_IPC_PATH);
 # provider_ethereum_test = EthereumTesterProvider()
 # HTTP Provider Reference: http://web3py.readthedocs.io/en/stable/providers.html#httpprovider
 provider_http = Web3.HTTPProvider("http://127.0.0.1:8545")
 # web3.py instance
-web3 = Web3(provider_http)
+web3 = Web3(provider_ipc)
 print('OS Platform: {}'.format(platform))
 print('Web3 provider: {}'.format(web3))
 
@@ -82,12 +86,21 @@ tester.s.revert(initial_chain_state)
 contract_instance_web3 = web3.eth.contract(abi=abi, bytecode=byte_code)
 print("Contract Instance with Web3: %s", contract_instance)
 
-# Get transaction hash from deployed contract
-tx_hash = contract_instance_web3.deploy(transaction={'from': web3.eth.accounts[0], 'gas': 410000})
-print("Deployed Contract Tx Hash: %s", tx_hash)
+# # Get transaction hash from deployed contract
+# deploy_txn_hash = contract_instance_web3.deploy(transaction={'from': web3.eth.accounts[0], 'gas': 410000})
+# print("Deployed Contract Tx Hash: %s", deploy_txn_hash)
 
-# Get tx receipt to get contract address
-tx_receipt = web3.eth.getTransactionReceipt(tx_hash)
-contract_address = tx_receipt['contractAddress']
-print("Contract Address with Web3: %s", contract_address)
+# # Get tx receipt to get contract address
+# tx_receipt = web3.eth.getTransactionReceipt(deploy_txn_hash)
+# contract_address = tx_receipt['contractAddress']
+# print("Contract Address with Web3: %s", contract_address)
+
+# Alternative attempt using Web3.py 4.1.0 and Geth 
+# https://github.com/ltfschoen/geth-node
+# http://web3py.readthedocs.io/en/stable/contracts.html?highlight=deploy
+deploy_txn_hash = contract_instance_web3.constructor(web3.eth.coinbase, 12345).transact()
+# Returns ValueError: {'code': -32000, 'message': 'unknown account'}
+print("Deployed Contract Tx Hash: %s", deploy_txn_hash)
+txn_receipt = web3.eth.getTransactionReceipt(deploy_txn_hash)
+print("Transaction Receipt: %s", txn_receipt['contractAddress'])
 
