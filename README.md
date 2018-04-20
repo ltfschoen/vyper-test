@@ -9,17 +9,18 @@ Vyper smart contract language
 This is a very simplified implementation of https://github.com/ethereum/vyper by Vitalik Buterin under MIT licence. I have focused on including setup instructions for both macOS and using Docker including troubleshooting tips. I have created Vyper smart contracts and associated Unit Tests. I have summarised Vyper benefits and usage.
 
 TODO
-* [ ] - [Safe Remote Purchases] (http://viper.readthedocs.io/en/latest/vyper-by-example.html#safe-remote-purchases)
-* [ ] - [Crowdfund](http://viper.readthedocs.io/en/latest/vyper-by-example.html#crowdfund)
-* [ ] - [Voting](http://viper.readthedocs.io/en/latest/vyper-by-example.html#voting)
-* [ ] - [Company Stock](http://viper.readthedocs.io/en/latest/vyper-by-example.html#company-stock)
 * [X] - Deploy Vyper contract to Geth Private Network
-* [ ] - Deploy Vyper contract to Ganache CLI / TestRPC
+* [X] - Deploy Vyper contract to Truffle Develop built-in blockchain
+* [ ] - Deploy Vyper contract to Ganache CLI / TestRPC - See this issue for progress: https://github.com/trufflesuite/ganache-cli/issues/511
 * [ ] - Deploy Vyper and integrate into Truffle
   * https://github.com/ethereum/vyper/issues/459
   * https://github.com/gakonst/ViperWeb3Deploy
 * [ ] - Review Vyper code by others
   * https://github.com/Uniswap/contracts-vyper
+* [ ] - Implement [Safe Remote Purchases] (http://viper.readthedocs.io/en/latest/vyper-by-example.html#safe-remote-purchases)
+* [ ] - Implement [Crowdfund](http://viper.readthedocs.io/en/latest/vyper-by-example.html#crowdfund)
+* [ ] - Implement [Voting](http://viper.readthedocs.io/en/latest/vyper-by-example.html#voting)
+* [ ] - Implement [Company Stock](http://viper.readthedocs.io/en/latest/vyper-by-example.html#company-stock)
 
 # Table of Contents
   * [Chapter 0 - Setup WITHOUT Docker](#chapter-0)
@@ -54,9 +55,6 @@ TODO
     ```bash
     vyper contracts/auctions/simple_open_auction.v.py
     ```
-
-* Start a Geth Node and View its Logs
-    * https://github.com/ltfschoen/geth-node
 
 * Option 1: Run Deployment Script to Deploy the Vyper Smart Contract to Truffle's built-in blockchain
     * Install Node Version Manager and switch to the latest version of Node.js (i.e. v9.8.0)
@@ -121,6 +119,10 @@ TODO
         ```
 
 * Option 2: Run Deployment Script to Deploy the Vyper Smart Contract to Geth Private Network
+
+    * Start a Geth Node and View its Logs
+        * https://github.com/ltfschoen/geth-node
+
     * Run the script
         ```bash
         python3 scripts/main.py
@@ -148,6 +150,35 @@ TODO
         Called Getter method of auction_end from Deployed Contract Instance: %s 1524192662
         ```
 
+* Option 3: **INCOMPLETE (DOES NOT WORK YET)** - Deploy Vyper contract to Ganache CLI / TestRPC
+    * Create separate terminal tab and start virtual EVM and start Ganache CLI
+
+        ```bash
+        ganache-cli \
+            --account="0x0000000000000000000000000000000000000000000000000000000000000001, 2471238800000000000" \
+            --account="0x0000000000000000000000000000000000000000000000000000000000000002, 4471238800000000000" \
+            --unlock "0x0000000000000000000000000000000000000000000000000000000000000001" \
+            --unlock "0x0000000000000000000000000000000000000000000000000000000000000002" \
+            --blocktime 0 \
+            --deterministic true \
+            --port 9545 \
+            --hostname localhost \
+            --seed 'blah' \
+            --debug true \
+            --mem true \
+            --mnemonic 'something' \
+            --db './db/chain_database' \
+            --verbose \
+            --networkId=1000 \
+            --gasLimit=7984452 \
+            --gasPrice=20000000000;
+        ```
+    
+    * Run the script
+        ```bash
+        python3 scripts/main.py
+        ```
+
 * Run Unit tests
     * Troubleshooting
         * Recursively deleting the pycache folder created in both the tests/ subdirectory and the tests/auctions/ subdirectory, and the .pytest_cache folder in the project root directory, and then running `find . -name '*.pyc' -delete` just to be sure all the cache files had been removed from all subdirectories. Add `export PYTHONDONTWRITEBYTECODE=1` into ~/.bash_profile so Python cache files would no longer be generated.
@@ -158,30 +189,6 @@ TODO
 
 * Troubleshooting
     * Refer to fork with [Troubleshooting steps](https://github.com/ltfschoen/vyper/blob/master/README_MAC.md)
-
-* INCOMPLETE - Deploy Vyper contract to Ganache CLI / TestRPC
-    * Create separate terminal tab and start virtual EVM and start Ganache CLI 
-
-```bash
-ganache-cli \
-    --account="0x0000000000000000000000000000000000000000000000000000000000000001, 2471238800000000000" \
-    --account="0x0000000000000000000000000000000000000000000000000000000000000002, 4471238800000000000" \
-    --unlock "0x0000000000000000000000000000000000000000000000000000000000000001" \
-    --unlock "0x0000000000000000000000000000000000000000000000000000000000000002" \
-    --blocktime 0 \
-    --deterministic true \
-    --port 8545 \
-    --hostname localhost \
-    --seed 'blah' \
-    --debug true \
-    --mem true \
-    --mnemonic 'something' \
-    --db './db/chain_database' \
-    --verbose \
-    --networkId=3 \
-    --gasLimit=7984452 \
-    --gasPrice=20000000000;
-```
 
 ## Chapter 1 - Setup WITH Docker <a id="chapter-1"></a>
 
