@@ -21,6 +21,9 @@ TODO
 * [ ] - Implement [Crowdfund](http://viper.readthedocs.io/en/latest/vyper-by-example.html#crowdfund)
 * [ ] - Implement [Voting](http://viper.readthedocs.io/en/latest/vyper-by-example.html#voting)
 * [ ] - Implement [Company Stock](http://viper.readthedocs.io/en/latest/vyper-by-example.html#company-stock)
+* [ ] - Assist Lucas Cullen with VS Code Vyper extension using the Solidity one as reference
+  * https://github.com/bitcoinbrisbane/Vyper-vscode
+  * https://github.com/juanfranblanco/vscode-solidity
 
 # Table of Contents
   * [Chapter 0 - Setup WITHOUT Docker](#chapter-0)
