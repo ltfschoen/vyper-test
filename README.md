@@ -58,10 +58,73 @@ TODO
 * Start a Geth Node and View its Logs
     * https://github.com/ltfschoen/geth-node
 
-* Run Deployment Script to Deploy the Vyper Smart Contract to Geth Private Network
-    ```bash
-    python3 scripts/main.py
-    ```
+* Option 1: Run Deployment Script to Deploy the Vyper Smart Contract to Truffle's built-in blockchain
+    * Install Node Version Manager and switch to the latest version of Node.js (i.e. v9.8.0)
+        ```
+        nvm use v9.8.0
+        ```
+
+    * Install Truffle
+        ```
+        npm install -g truffle
+        ```
+
+    * Create new terminal tab in root of the project directory and run
+        ```bash
+        truffle develop --log
+        ```
+
+    * Modify scripts/main.py by changing `web3 = Web3(provider_ipc)` (used for a Geth Node) to `web3 = Web3(provider_http)` (used for Truffle) instead 
+    
+    * Run the script
+        ```bash
+        python3 scripts/main.py
+        ```
+    
+    * Output after deploying the contract shown in the Truffle logs
+        ```bash
+        $ truffle develop --log
+        Truffle Develop started at http://localhost:9545/
+
+        Accounts:
+        (0) ...
+        (1) ...
+
+        Private Keys:
+        (0) ...
+        (1) ...
+
+        Mnemonic: ...
+
+        develop:testrpc personal_listAccounts +0ms
+        develop:testrpc eth_accounts +8ms
+        develop:testrpc eth_accounts +7ms
+        develop:testrpc personal_listAccounts +6ms
+        develop:testrpc eth_gasPrice +5ms
+        develop:testrpc eth_estimateGas +12ms
+        develop:testrpc net_version +48ms
+        develop:testrpc net_version +6ms
+        develop:testrpc eth_sendTransaction +7ms
+        develop:testrpc  +52ms
+        develop:testrpc   Transaction: 0x3d29ae2796e9b94f59d7830062f081fff4f9811c0869e659e2faa4efe7370ccf +0ms
+        develop:testrpc   Contract created: 0x8cdaf0cd259887258bc13a92c0a6da92698644c0 +0ms
+        develop:testrpc   Gas usage: 273163 +0ms
+        develop:testrpc   Block Number: 1 +0ms
+        develop:testrpc   Block Time: Fri Apr 20 2018 13:01:53 GMT+1000 (AEST) +0ms
+        develop:testrpc  +0ms
+        develop:testrpc eth_getTransactionReceipt +5ms
+        develop:testrpc eth_getTransactionReceipt +11ms
+        develop:testrpc eth_getBlockByNumber +29ms
+        develop:testrpc eth_call +13ms
+        develop:testrpc eth_getBlockByNumber +30ms
+        develop:testrpc eth_call +13ms
+        ```
+
+* Option 2: Run Deployment Script to Deploy the Vyper Smart Contract to Geth Private Network
+    * Run the script
+        ```bash
+        python3 scripts/main.py
+        ```
 
     * Example Terminal Output
         ```

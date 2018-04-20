@@ -14,9 +14,11 @@ GENERIC_PASSWORD_TO_ENCRYPT = 'test123456'
 provider_ipc = IPCProvider(GETH_IPC_PATH);
 # provider_ethereum_test = EthereumTesterProvider()
 # HTTP Provider Reference: http://web3py.readthedocs.io/en/stable/providers.html#httpprovider
-provider_http = Web3.HTTPProvider("http://127.0.0.1:8545")
+# Run `truffle develop` with a configuration to start Ganache CLI. 
+# It does not appear to work when I just run ganache-cli with flags such as `--port 9545`
+provider_http = Web3.HTTPProvider("http://127.0.0.1:9545")
 # web3.py instance
-web3 = Web3(provider_ipc)
+web3 = Web3(provider_http)
 print('OS Platform: {}'.format(platform))
 print('Web3 provider: {}'.format(web3))
 
@@ -86,13 +88,28 @@ tester.s.revert(initial_chain_state)
 contract_instance_web3 = web3.eth.contract(abi=abi, bytecode=byte_code)
 print("Contract Instance with Web3: %s", contract_instance)
 
-print("Accounts: %s",  web3.personal.listAccounts[0]);
+# Note: If we're running a Geth Node then I can use
+# `web3.personal.listAccounts` but when I am using Ganache CLI
+# I have to use `web3.eth.accounts` instead
+if web3.personal.listAccounts:
+    # Geth Node
+    print("Accounts: %s",  web3.personal.listAccounts[0])
+    first_account = web3.personal.listAccounts[0]
+else: 
+    # Ganache CLI on port 9545 with `truffle develop`
+    print("Accounts: %s",  web3.eth.accounts[0])
+    first_account = web3.eth.accounts[0]
 
 # Set Default account since this is used by 
 # /Users/Me/.pyenv/versions/3.6.2/lib/python3.6/site-packages/web3/contract.py", line 742
-web3.eth.defaultAccount = web3.personal.listAccounts[0]
+web3.eth.defaultAccount = first_account
 print("Default Account: %s", web3.eth.defaultAccount);
-print("Unlocked Default Account: %s", web3.personal.unlockAccount(web3.eth.defaultAccount, GENERIC_PASSWORD_TO_ENCRYPT))
+
+
+if web3.personal.listAccounts:
+    # Only need to unlock the account when using Geth Node
+    # Note necessary when using Ganache CLI on port 9545 with `truffle develop`
+    print("Unlocked Default Account: %s", web3.personal.unlockAccount(web3.eth.defaultAccount, GENERIC_PASSWORD_TO_ENCRYPT))
 
 # Alternative using Web3.py 4.1.0 and Geth
 # https://github.com/ltfschoen/geth-node
@@ -100,7 +117,7 @@ print("Unlocked Default Account: %s", web3.personal.unlockAccount(web3.eth.defau
 # Get transaction hash from deployed contract
 
 transaction_fields = { 
-    'from': web3.personal.listAccounts[0], 
+    'from': first_account, 
     'gasPrice': web3.eth.gasPrice
 }
 
