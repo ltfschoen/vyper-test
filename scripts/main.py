@@ -99,11 +99,6 @@ print("Unlocked Default Account: %s", web3.personal.unlockAccount(web3.eth.defau
 # http://web3py.readthedocs.io/en/stable/contracts.html?highlight=deploy
 # Get transaction hash from deployed contract
 
-# Constructor Parameters
-# args = {
-#     'language': 'vyper',
-#     'args': [web3.eth.accounts[0], FIVE_DAYS]
-# }
 transaction_fields = { 
     'from': web3.personal.listAccounts[0], 
     'gasPrice': web3.eth.gasPrice
