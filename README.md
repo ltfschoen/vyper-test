@@ -66,18 +66,23 @@ TODO
     * Example Terminal Output
         ```
         $ python3 scripts/main.py
+
         OS Platform: darwin
-        Web3 provider: <web3.main.Web3 object at 0x10aa6c160>
+        Web3 provider: <web3.main.Web3 object at 0x10ebb6160>
         Initializing chain from provided state
+        ABI: %s [{'name': '__init__', 'outputs': [], 'inputs': [{'type': 'address', 'name': '_beneficiary'}, {'type': 'int128', 'name': '_bidding_time'}], 'constant': False, 'payable': False, 'type': 'constructor'}, {'name': 'bid', 'outputs': [], 'inputs': [], 'constant': False, 'payable': True, 'type': 'function', 'gas': 76241}, {'name': 'end_auction', 'outputs': [], 'inputs': [], 'constant': False, 'payable': False, 'type': 'function', 'gas': 56101}, {'name': 'beneficiary', 'outputs': [{'type': 'address', 'name': 'out'}], 'inputs': [], 'constant': True, 'payable': False, 'type': 'function', 'gas': 543}, {'name': 'auction_start', 'outputs': [{'type': 'int128', 'name': 'out'}], 'inputs': [], 'constant': True, 'payable': False, 'type': 'function', 'gas': 573}, {'name': 'auction_end', 'outputs': [{'type': 'int128', 'name': 'out'}], 'inputs': [], 'constant': True, 'payable': False, 'type': 'function', 'gas': 603}, {'name': 'highest_bidder', 'outputs': [{'type': 'address', 'name': 'out'}], 'inputs': [], 'constant': True, 'payable': False, 'type': 'function', 'gas': 633}, {'name': 'highest_bid', 'outputs': [{'type': 'int128', 'name': 'out'}], 'inputs': [], 'constant': True, 'payable': False, 'type': 'function', 'gas': 663}, {'name': 'ended', 'outputs': [{'type': 'bool', 'name': 'out'}], 'inputs': [], 'constant': True, 'payable': False, 'type': 'function', 'gas': 693}]
         Address: %s b'\xd6\xf0\x84\xee\x15\xe3\x8cO~\t\x1f\x8d\xd0\xfeo\xe4\xa0\xe2\x03\xef'
-        Contract Instance: %s <ethereum.tools.tester.ABIContract object at 0x10c4614a8>
-        Contract Instance with Web3: %s <ethereum.tools.tester.ABIContract object at 0x10c4614a8>
+        Contract Instance: %s <ethereum.tools.tester.ABIContract object at 0x1105aa5c0>
+        Contract Instance with Web3: %s <ethereum.tools.tester.ABIContract object at 0x1105aa5c0>
         Accounts: %s 0x487F2778Ec7D0747d6E26AF80148Ec471a08b339
         Default Account: %s 0x487F2778Ec7D0747d6E26AF80148Ec471a08b339
         Unlocked Default Account: %s True
-        Deployed Contract Tx Hash: %d b'\x14S\xc2\xb9|\x98\xdc\x02\xb3\rd!\xd9\xba\xfbOc\x03a:\xef^\xaa\x88\xfe\x11\x1e\xec.\x02t\xca'
-        Contract Instance: %s <web3.utils.datatypes.Contract object at 0x10b251ba8>
-        Called Getter method of the Deployed Contract Instance: %s 0x487F2778Ec7D0747d6E26AF80148Ec471a08b339
+        Deployed Contract Tx Hash: %d b'\tk\xfb.k\xe5\x94\x1f\x152\xb3\x14d\x1dN6T\xf5\x97v(d\xa4\xd6DW\x93\xf2r\xe1\xe7\xfc'
+        Mined Transaction Receipt: %s AttributeDict({'blockHash': HexBytes('0x74c26c73f9021c8aae1a6df1e283c13a2045f3c3a2b9aab1689307b1bc40c12b'), 'blockNumber': 3755, 'contractAddress': '0xc071ef1FE2f3d9b8D59C4106391b7fe417593cfa', 'cumulativeGasUsed': 273163, 'from': '0x487f2778ec7d0747d6e26af80148ec471a08b339', 'gasUsed': 273163, 'logs': [], 'logsBloom': HexBytes('0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'), 'root': '0xb5b377e641e9850d2f10d631251b5431a4f34a7745aafddca52b7654fb7bb60f', 'to': None, 'transactionHash': HexBytes('0x096bfb2e6be5941f1532b314641d4e3654f597762864a4d6445793f272e1e7fc'), 'transactionIndex': 0})
+        Transaction Receipt: %s AttributeDict({'blockHash': HexBytes('0x74c26c73f9021c8aae1a6df1e283c13a2045f3c3a2b9aab1689307b1bc40c12b'), 'blockNumber': 3755, 'contractAddress': '0xc071ef1FE2f3d9b8D59C4106391b7fe417593cfa', 'cumulativeGasUsed': 273163, 'from': '0x487f2778ec7d0747d6e26af80148ec471a08b339', 'gasUsed': 273163, 'logs': [], 'logsBloom': HexBytes('0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'), 'root': '0xb5b377e641e9850d2f10d631251b5431a4f34a7745aafddca52b7654fb7bb60f', 'to': None, 'transactionHash': HexBytes('0x096bfb2e6be5941f1532b314641d4e3654f597762864a4d6445793f272e1e7fc'), 'transactionIndex': 0})
+        Contract Instance: %s <web3.utils.datatypes.Contract object at 0x10f151a20>
+        Called Getter method of beneficiary from Deployed Contract Instance: %s 0x487F2778Ec7D0747d6E26AF80148Ec471a08b339
+        Called Getter method of auction_end from Deployed Contract Instance: %s 1524192662
         ```
 
 * Run Unit tests

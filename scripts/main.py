@@ -62,7 +62,7 @@ FIVE_DAYS = 432000
 tester.c = tester.s.contract(source_code, language='vyper', args=[tester.accounts[0], FIVE_DAYS])
 # Generate ABI from contract source code
 abi = tester.languages['vyper'].mk_full_signature(source_code)
-# print("ABI: %s", abi)
+print("ABI: %s", abi)
 # Generate Contract Translator from ABI
 contract_translator = tester.ContractTranslator(abi)
 # Generate Bytecode from contract source code
@@ -100,35 +100,48 @@ print("Unlocked Default Account: %s", web3.personal.unlockAccount(web3.eth.defau
 # Get transaction hash from deployed contract
 
 # Constructor Parameters
-args = {
-    'language': 'vyper',
-    'args': [web3.eth.accounts[0], FIVE_DAYS]
+# args = {
+#     'language': 'vyper',
+#     'args': [web3.eth.accounts[0], FIVE_DAYS]
+# }
+transaction_fields = { 
+    'from': web3.personal.listAccounts[0], 
+    'gasPrice': web3.eth.gasPrice
 }
-contract_data = contract_instance_web3.constructor(web3.eth.defaultAccount, 12345).buildTransaction(args)
+
+# Vyper contract Constructor Parameters expected
+# i.e. See signature of Construction Function in simple_open_auction.v.py 
+# containing expected Constructor Parameters:
+#   def __init__(_beneficiary: address, _bidding_time: timedelta):
+_bidding_time = 4000
+
+contract_data = contract_instance_web3
+                    .constructor(web3.eth.defaultAccount, _bidding_time)
+                    .buildTransaction(transaction_fields)
+
 deploy_txn_hash = web3.eth.sendTransaction(contract_data)
 
-# deploy_txn_hash = contract_instance_web3.constructor(web3.eth.defaultAccount, 12345).transact()
-
-# Returns ValueError: {'code': -32000, 'message': 'unknown account'}
-# https://www.devdungeon.com/content/working-binary-data-python
 print("Deployed Contract Tx Hash: %d", deploy_txn_hash)
+
+# IMPORTANT: Ensure that you start mining in the Geth Node before 
+# the deploying the contract using the Geth JavaScript Console with `miner.start(1)` 
+# so it returns the tx receipt after its mined the block
+mined_txn_receipt = web3.eth.waitForTransactionReceipt(deploy_txn_hash, timeout=1200)
+print("Mined Transaction Receipt: %s", mined_txn_receipt)
 
 txn_receipt = web3.eth.getTransactionReceipt(deploy_txn_hash)
 print("Transaction Receipt: %s", txn_receipt)
 
-# Get the deployed transaction hash that is shown in the Geth Logs.
-# Open Geth JavaScript console and paste the following to get the receipt:
+# Note that the deployed Transaction Hash is shown in the Geth Logs.
+# It may be used to obtain the tx receipt from the tx hash by running 
+# the following in the Geth JavaScript console:
 # web3.eth.getTransactionReceipt('<INSERT_TRANSACTION_HASH')
-
-# Mine the deployed contract using the Geth JavaScript Console with `miner.start(1)`
-# and stop it with `miner.stop()` after it's finished mining the deployed contract
-
-# TEMPORARY HACK SINCE `deploy_txn_hash` is being returned as 
-# `b'\x14S\xc2\xb9|\x98\xdc\x02\xb3\rd!\xd9\xba\xfbOc\x03a:\xef^\xaa\x88\xfe\x11\x1e\xec.\x02t\xca'` 
-# instead of `0xff2f29a02442f9f522967d8b388cf0b8cf6bff8bbe1526be45e413c220e4b91a`
-# Copy/Paste the contract address that is shown in the Geth Logs after it displays "Submitted contract creation"
-deployed_address_of_contract_from_geth = '0xD066107750d5a90109110889aa60CaadEee9063d'
-contract_instance = web3.eth.contract(address=deployed_address_of_contract_from_geth, abi=abi)
+deployed_contract_address = mined_txn_receipt['contractAddress']
+contract_instance = web3.eth.contract(address=deployed_contract_address, abi=abi)
 print("Contract Instance: %s", contract_instance)
 
-print("Called Getter method of the Deployed Contract Instance: %s", contract_instance.functions.beneficiary().call())
+print("Called Getter method beneficiary() from Deployed Contract Instance: %s", 
+    contract_instance.functions.beneficiary().call())
+print("Called Getter method auction_end() set by Constructor Parameter \
+    _bidding_time from Deployed Contract Instance: %s", 
+    contract_instance.functions.auction_end().call())
