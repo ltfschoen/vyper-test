@@ -110,8 +110,8 @@ transaction_fields = {
 #   def __init__(_beneficiary: address, _bidding_time: timedelta):
 _bidding_time = 4000
 
-contract_data = contract_instance_web3
-                    .constructor(web3.eth.defaultAccount, _bidding_time)
+contract_data = contract_instance_web3 \
+                    .constructor(web3.eth.defaultAccount, _bidding_time) \
                     .buildTransaction(transaction_fields)
 
 deploy_txn_hash = web3.eth.sendTransaction(contract_data)
