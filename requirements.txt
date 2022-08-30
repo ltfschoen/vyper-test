@@ -5,7 +5,7 @@ chardet==3.0.2
 cffi==1.7
 coincurve==7.0.0
 eth-abi==1.0.0
-eth-account==0.1.0-alpha.2
+eth-account==0.5.9
 eth-keys==0.2.0b3
 eth-tester==0.1.0b21
 eth-utils==1.0.1
